@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	helloworld "github.com/ooneko/temporal-tutorial/hello-world"
+	"github.com/ooneko/temporal-tutorial/signal"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
 )
@@ -15,10 +15,10 @@ func main() {
 	}
 	defer c.Close()
 
-	w := worker.New(c, helloworld.TaskQueue, worker.Options{})
+	w := worker.New(c, "hello-world", worker.Options{})
 
-	w.RegisterWorkflow(helloworld.Workflow)
-	w.RegisterActivity(helloworld.Activity)
+	w.RegisterWorkflow(signal.Workflow)
+	w.RegisterActivity(signal.Activity)
 
 	err = w.Run(worker.InterruptCh())
 	if err != nil {

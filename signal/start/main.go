@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	helloworld "github.com/ooneko/temporal-tutorial/hello-world"
+	"github.com/ooneko/temporal-tutorial/signal"
 	"go.temporal.io/sdk/client"
 )
 
@@ -16,21 +16,15 @@ func main() {
 	defer c.Close()
 
 	workflowOptions := client.StartWorkflowOptions{
-		ID:        "hello_world_workflowID",
-		TaskQueue: helloworld.TaskQueue,
+		ID:        signal.WorkflowID,
+		TaskQueue: signal.TaskQueue,
 	}
 
 	we, err := c.ExecuteWorkflow(context.Background(),
-		workflowOptions, helloworld.Workflow, "Temporal")
+		workflowOptions, signal.Workflow, "Temporal")
 	if err != nil {
 		log.Fatalln("Unable to execute workflow", err)
 	}
 
 	log.Println("Started workflow", "WorkflowID", we.GetID(), "RunID", we.GetRunID())
-	var result string
-	err = we.Get(context.Background(), &result)
-	if err != nil {
-		log.Fatalln("Unable get workflow result", err)
-	}
-	log.Println("Workflow result:", result)
 }
