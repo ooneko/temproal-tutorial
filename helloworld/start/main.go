@@ -4,12 +4,12 @@ import (
 	"context"
 	"log"
 
-	helloworld "github.com/ooneko/temporal-tutorial/hello-world"
+	"github.com/ooneko/temporal-tutorial/helloworld"
 	"go.temporal.io/sdk/client"
 )
 
 func main() {
-	c, err := client.NewClient(client.Options{})
+	c, err := client.Dial(client.Options{})
 	if err != nil {
 		log.Fatalln("Unable to create client, err")
 	}
